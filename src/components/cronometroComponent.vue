@@ -1,29 +1,27 @@
 <template>
     <div class="container-cronometro">
         <h1>{{ formatarTempo(time) }}</h1>
-        <button
-            type="button"
-            @click="startTimer()"
-            v-show="!activated"
-            :style="{ color: btnColor }"
-        >
-            Start
-        </button>
-        <button type="button" @click="pauseTimer()" v-show="activated">Stop</button>
+        <div class="container-btn">
+            <div class="bnt-event">
+                <button type="button" @click="startTimer()" v-show="!activated" :style="{ color: btnColor }">Start</button>
+
+                <button type="button" @click="pauseTimer()" v-show="activated" :style="{ color: btnColor }">Stop</button>
+            </div>
+
+            <button id="btn-end" type="button" @click="endTime()" :style="{ color: btnColor }">End</button>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
-const props = defineProps({
-    newTime: Number,
-    newColor: String,
-});
+const emit = defineEmits(['changePagePomodoro', 'changePageShort', 'changePageLong']);
 
 const time = ref(25 * 60);
 const activated = ref(false);
 const btnColor = ref('#BA4949');
+const countPause = ref(0);
 let breakTimer = null;
 
 function startTimer() {
@@ -33,8 +31,9 @@ function startTimer() {
             if (time.value > 0) {
                 time.value--;
             } else {
-                pause();
-                alert('Fim do Pomodoro');
+                pauseTimer();
+                changePage();
+                console.log('ChangePage');
             }
         }, 1000);
     }
@@ -44,13 +43,18 @@ function pauseTimer() {
     if (activated.value) {
         activated.value = false;
         clearInterval(breakTimer);
+        console.log('Pause');
     }
 }
 
-function changeTime() {
-    time.value = props.newTime;
-    btnColor.value = props.newColor;
-    console.log('Change Time Função');
+function endTime() {
+    time.value = 0;
+}
+
+function changeTime(newTime, newColor) {
+    time.value = newTime;
+    btnColor.value = newColor;
+    pauseTimer();
 }
 
 defineExpose({
@@ -64,6 +68,19 @@ function formatarTempo(segundos) {
     const seg = (segundos % 60).toString().padStart(2, '0');
     return `${min}:${seg}`;
 }
+
+function changePage() {
+    console.log('changePage Função');
+    if (time.value === 0 && btnColor.value === '#BA4949' && countPause.value < 3) {
+        emit('changePageShort', countPause.value);
+        countPause.value++;
+    } else if (time.value === 0 && btnColor.value === '#BA4949' && countPause.value >= 3) {
+        emit('changePageLong');
+        countPause.value = 0;
+    } else if (time.value === 0) {
+        emit('changePagePomodoro');
+    }
+}
 </script>
 
 <style scoped>
@@ -72,13 +89,31 @@ function formatarTempo(segundos) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 5px;
     width: 100%;
     height: 77%;
 }
 
+.container-btn {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+}
+
 h1 {
     font-size: 120px;
+}
+
+#btn-end {
+    background-color: white;
+    border: 0px;
+    color: #c15c5c;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: rgb(235, 235, 235) 0px 6px 0px;
+    font-size: 22px;
+    width: 100px;
+    transition: 0.5s;
 }
 
 button {
@@ -93,9 +128,11 @@ button {
     padding: 0px 12px;
     width: 200px;
     cursor: pointer;
+    transition: 0.5s;
 }
 
-button:hover {
+button:hover,
+#btn-end:hover {
     background-color: rgb(230, 230, 230);
 }
 </style>
