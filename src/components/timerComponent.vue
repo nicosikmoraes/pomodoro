@@ -77,7 +77,7 @@ function long() {
     color: white;
     font-size: 16px;
     padding: 4px 12px;
-    width: 110px;
+    width: 115px;
     height: 30px;
     border-radius: 6px;
     cursor: pointer;

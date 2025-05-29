@@ -5,7 +5,7 @@
 
         <div v-for="(tasks, index) in task" :key="index">
             <div class="list">
-                <button id="btn-icon" @click="tasks.done = !tasks.done" :class="{ riscadoIcon: tasks.done, normalIcon: !tasks.done }">&#10004;</button>
+                <button id="btn-icon" @click="tasks.done = !tasks.done" :class="{ riscadoIcon: tasks.done, normalIcon: !tasks.done }"><i class="bi bi-check"></i></button>
                 <h3 :class="{ riscado: tasks.done }">
                     {{ tasks.task }}
                 </h3>
@@ -96,6 +96,10 @@ p {
 h3 {
     font-size: 18px;
     font-weight: bold;
+}
+
+i {
+    font-size: 28px;
 }
 
 .btn-modal {
