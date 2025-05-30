@@ -4,7 +4,7 @@
         <hr />
 
         <div v-for="(tasks, index) in task" :key="index">
-            <div class="list" @click="tasks.select = !tasks.select" :class="{ selectedTask: tasks.select }">
+            <div class="list" @click="(tasks.select = !tasks.select), (idPomodoros = tasks.id)" :class="{ selectedTask: idPomodoros === tasks.id }">
                 <button
                     id="btn-icon"
                     @click="(tasks.done = !tasks.done), (tasks.select = !tasks.select)"
@@ -16,7 +16,7 @@
                 <h3 :class="{ riscado: tasks.done }">{{ tasks.task }}</h3>
 
                 <div class="pomodoros-made">
-                    <h2>{{ madePomodoros }}/{{ tasks.pomodorosTotal }}</h2>
+                    <h2>{{ tasks.madePomodoros }}/{{ tasks.pomodorosTotal }}</h2>
                     <i id="delete-icon" class="bi bi-trash" @click="deleteTask(tasks.id)"></i>
                 </div>
             </div>
@@ -39,7 +39,7 @@ const showModal = ref(false);
 const task = ref([]);
 const color = ref('#BA4949');
 const idTask = ref(0);
-const madePomodoros = ref(0);
+const idPomodoros = ref(0);
 
 function getTask(newTask, pomodoros) {
     const taskObeject = {
@@ -47,6 +47,7 @@ function getTask(newTask, pomodoros) {
         done: false,
         id: idTask.value++,
         pomodorosTotal: pomodoros,
+        madePomodoros: 0,
         select: false,
     };
     task.value.push(taskObeject);
@@ -61,8 +62,10 @@ function changeColor(newColor) {
 }
 
 function changePomodoros(pomodorosMade) {
-    madePomodoros.value = pomodorosMade;
-    console.log('Pomodoros made', madePomodoros.value);
+    const tasks = task.value.find((task) => task.id === idPomodoros.value);
+    if (tasks) {
+        tasks.madePomodoros++;
+    }
 }
 
 defineExpose({

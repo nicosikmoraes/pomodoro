@@ -4,6 +4,7 @@
             <button type="button" id="btn-pomodoro" class="btn" @click="pomodoro()" :class="{ 'btn-active1': selected === 'pomodoro' }">Pomodoro</button>
 
             <button type="button" id="btn-short" class="btn" @click="short()" :class="{ 'btn-active2': selected === 'short' }">Short Break</button>
+
             <button type="button" id="btn-long" class="btn" @click="long()" :class="{ 'btn-active3': selected === 'long' }">Long Break</button>
         </div>
         <cronometroComponent
@@ -39,8 +40,7 @@ function changeColor() {
 
 function pomodorosSend(madePomodoros) {
     pomodorosMade.value = madePomodoros;
-    emit('pomodoros', pomodorosMade.value);
-    console.log('Pomodoros emit', pomodorosMade.value);
+    emit('pomodoros');
 }
 
 function pomodoro() {

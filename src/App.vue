@@ -18,9 +18,8 @@ function getColor(newColor) {
     taskComponent.value.changeColor(color.value);
 }
 
-function getPomodoros(madePomodoros) {
-    taskComponent.value.changePomodoros(madePomodoros);
-    console.log('getPomodoros', madePomodoros);
+function getPomodoros() {
+    taskComponent.value.changePomodoros();
 }
 </script>
 
