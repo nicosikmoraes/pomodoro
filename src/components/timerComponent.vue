@@ -58,7 +58,7 @@ function short() {
 function long() {
     (selected.value = 'long'), (color.value = '#4d7fa2'), (mainColor.value = '#397097'), (newTime.value = 15 * 60), (newColor.value = '#397097');
     changeColor();
-    console.log('Long', newTime.value, madePomodoros);
+    console.log('Long', newTime.value);
 }
 </script>
 

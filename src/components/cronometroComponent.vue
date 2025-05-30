@@ -85,6 +85,7 @@ function changePage() {
     } else if (time.value === 0) {
         emit('changePagePomodoro');
     }
+    console.log(countPause.value);
 }
 </script>
 

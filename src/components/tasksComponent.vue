@@ -12,6 +12,7 @@
                 >
                     <i class="bi bi-check"></i>
                 </button>
+
                 <h3 :class="{ riscado: tasks.done }">{{ tasks.task }}</h3>
 
                 <div class="pomodoros-made">
