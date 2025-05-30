@@ -16,12 +16,13 @@
 <script setup>
 import { ref } from 'vue';
 
-const emit = defineEmits(['changePagePomodoro', 'changePageShort', 'changePageLong']);
+const emit = defineEmits(['changePagePomodoro', 'changePageShort', 'changePageLong', 'pomodoros']);
 
 const time = ref(25 * 60);
 const activated = ref(false);
 const btnColor = ref('#BA4949');
 const countPause = ref(0);
+const madePomodoros = ref(0);
 let breakTimer = null;
 
 function startTimer() {
@@ -72,10 +73,14 @@ function formatarTempo(segundos) {
 function changePage() {
     console.log('changePage Função');
     if (time.value === 0 && btnColor.value === '#BA4949' && countPause.value < 3) {
-        emit('changePageShort', countPause.value);
+        madePomodoros.value++;
+        emit('changePageShort');
+        emit('pomodoros', madePomodoros.value);
         countPause.value++;
     } else if (time.value === 0 && btnColor.value === '#BA4949' && countPause.value >= 3) {
+        madePomodoros.value++;
         emit('changePageLong');
+        emit('pomodoros', madePomodoros.value);
         countPause.value = 0;
     } else if (time.value === 0) {
         emit('changePagePomodoro');

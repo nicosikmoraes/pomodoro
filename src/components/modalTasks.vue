@@ -7,7 +7,7 @@
             <div class="pomodoros-counter">
                 <p>Est pomodoros</p>
                 <div class="input-pomodoros">
-                    <input id="value-pomodoros" type="number" value="1" />
+                    <input id="value-pomodoros" type="number" placeholder="0" value="1" v-model="pomodoros" />
                 </div>
             </div>
         </div>
@@ -25,14 +25,16 @@ import { ref } from 'vue';
 const emit = defineEmits(['passTask']);
 
 const taskMessage = ref('');
+const pomodoros = ref(1);
 
 function getTask() {
     passTask();
     taskMessage.value = '';
+    pomodoros.value = 1;
 }
 
 function passTask() {
-    emit('passTask', taskMessage.value);
+    emit('passTask', taskMessage.value, pomodoros.value);
 }
 </script>
 

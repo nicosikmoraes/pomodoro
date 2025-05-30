@@ -1,7 +1,7 @@
 <template>
     <div class="container" :style="{ 'background-color': color }">
-        <timerComponent @changeColor="getColor" />
-        <tasksComponent />
+        <timerComponent @changeColor="getColor" @pomodoros="getPomodoros" />
+        <tasksComponent ref="taskComponent" />
     </div>
 </template>
 
@@ -11,9 +11,16 @@ import timerComponent from './components/timerComponent.vue';
 import tasksComponent from './components/tasksComponent.vue';
 
 const color = ref('#BA4949');
+const taskComponent = ref(null);
 
 function getColor(newColor) {
     color.value = newColor;
+    taskComponent.value.changeColor(color.value);
+}
+
+function getPomodoros(madePomodoros) {
+    taskComponent.value.changePomodoros(madePomodoros);
+    console.log('getPomodoros', madePomodoros);
 }
 </script>
 

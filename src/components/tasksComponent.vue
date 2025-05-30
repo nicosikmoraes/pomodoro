@@ -4,15 +4,26 @@
         <hr />
 
         <div v-for="(tasks, index) in task" :key="index">
-            <div class="list">
-                <button id="btn-icon" @click="tasks.done = !tasks.done" :class="{ riscadoIcon: tasks.done, normalIcon: !tasks.done }"><i class="bi bi-check"></i></button>
-                <h3 :class="{ riscado: tasks.done }">
-                    {{ tasks.task }}
-                </h3>
+            <div class="list" @click="tasks.select = !tasks.select" :class="{ selectedTask: tasks.select }">
+                <button
+                    id="btn-icon"
+                    @click="(tasks.done = !tasks.done), (tasks.select = !tasks.select)"
+                    :class="{ riscadoIcon: tasks.done, normalIcon: !tasks.done }"
+                >
+                    <i class="bi bi-check"></i>
+                </button>
+                <h3 :class="{ riscado: tasks.done }">{{ tasks.task }}</h3>
+
+                <div class="pomodoros-made">
+                    <h2>{{ madePomodoros }}/{{ tasks.pomodorosTotal }}</h2>
+                    <i id="delete-icon" class="bi bi-trash" @click="deleteTask(tasks.id)"></i>
+                </div>
             </div>
         </div>
 
-        <button type="button" class="btn-modal" @click="showModal = true"><div id="btn-modal-text">add task</div></button>
+        <button type="button" class="btn-modal" @click="showModal = true" :style="{ 'background-color': color }">
+            <div id="btn-modal-text">add task</div>
+        </button>
 
         <modalTasks v-if="showModal" @close="showModal = false" @passTask="getTask" />
     </div>
@@ -21,21 +32,42 @@
 <script setup>
 import modalTasks from './modalTasks.vue';
 import { ref } from 'vue';
+import { defineExpose } from 'vue';
 
-const icon = ref('&#10004;');
 const showModal = ref(false);
 const task = ref([]);
-const done = ref(false);
-const indexTask = ref(null);
+const color = ref('#BA4949');
+const idTask = ref(0);
+const madePomodoros = ref(0);
 
-function getTask(newTask) {
+function getTask(newTask, pomodoros) {
     const taskObeject = {
         task: newTask,
         done: false,
+        id: idTask.value++,
+        pomodorosTotal: pomodoros,
+        select: false,
     };
     task.value.push(taskObeject);
-    console.log(task.value[0], indexTask.value);
 }
+
+function deleteTask(id) {
+    task.value = task.value.filter((task) => task.id !== id);
+}
+
+function changeColor(newColor) {
+    color.value = newColor;
+}
+
+function changePomodoros(pomodorosMade) {
+    madePomodoros.value = pomodorosMade;
+    console.log('Pomodoros made', madePomodoros.value);
+}
+
+defineExpose({
+    changeColor,
+    changePomodoros,
+});
 </script>
 
 <style scoped>
@@ -53,11 +85,21 @@ function getTask(newTask) {
     border-radius: 4px;
     font-size: 16px;
     box-sizing: border-box;
-    border-left: 5px solid black;
     justify-content: flex-start;
     align-items: center;
     padding: 18px 20px;
     gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 4px;
+}
+
+.list:hover {
+    border-left: 5px solid rgb(177, 177, 177);
+}
+
+.selectedTask {
+    border-left: 5px solid black;
+    transform: translateY(2px);
+    box-shadow: none;
 }
 
 .riscado {
@@ -98,8 +140,26 @@ h3 {
     font-weight: bold;
 }
 
+h2 {
+    font-size: 20px;
+    opacity: 0.8;
+}
+
 i {
     font-size: 28px;
+}
+
+.pomodoros-made {
+    margin-left: auto;
+    display: flex;
+    gap: 26px;
+    align-items: center;
+}
+
+#delete-icon {
+    font-size: 23px;
+    margin-left: auto;
+    cursor: pointer;
 }
 
 .btn-modal {

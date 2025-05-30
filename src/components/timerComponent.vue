@@ -13,6 +13,7 @@
             @changePagePomodoro="pomodoro"
             @changePageShort="short"
             @changePageLong="long"
+            @pomodoros="pomodorosSend"
         />
     </div>
 </template>
@@ -21,7 +22,7 @@
 import { ref } from 'vue';
 import cronometroComponent from './cronometroComponent.vue';
 
-const emit = defineEmits(['changeColor']);
+const emit = defineEmits(['changeColor', 'pomodoros']);
 const changeTimeFunction = ref(null);
 
 const newTime = ref(25 * 60);
@@ -29,10 +30,17 @@ const newColor = ref('#BA4949');
 const mainColor = ref('');
 const color = ref('#C15C5C');
 const selected = ref('pomodoro');
+const pomodorosMade = ref(0);
 
 function changeColor() {
     emit('changeColor', mainColor.value);
     changeTimeFunction.value.changeTime(newTime.value, newColor.value);
+}
+
+function pomodorosSend(madePomodoros) {
+    pomodorosMade.value = madePomodoros;
+    emit('pomodoros', pomodorosMade.value);
+    console.log('Pomodoros emit', pomodorosMade.value);
 }
 
 function pomodoro() {
@@ -50,7 +58,7 @@ function short() {
 function long() {
     (selected.value = 'long'), (color.value = '#4d7fa2'), (mainColor.value = '#397097'), (newTime.value = 15 * 60), (newColor.value = '#397097');
     changeColor();
-    console.log('Long', newTime.value);
+    console.log('Long', newTime.value, madePomodoros);
 }
 </script>
 
