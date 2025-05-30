@@ -1,29 +1,19 @@
-# projeto-diretiva
+## POMODORO
+My first vue project, made a site to organize your routine using pomodoro tecnic.
+A CodeAcademy project
 
-This template should help get you started developing with Vue 3 in Vite.
+## Technologies
+- Vue
+- Bootstrap (for icons only)
+- Java Script
+- Html
+- Css
 
-## Recommended IDE Setup
+## Screenshots
+![image](https://github.com/user-attachments/assets/4fc24660-a871-4d4b-adff-0736c8c3de94)
+![image](https://github.com/user-attachments/assets/8edf4c1d-a912-4308-b803-5f7a1b0ec7df)
+![image](https://github.com/user-attachments/assets/697266af-7d07-4355-9cd5-9a9fdb9b97e6)
+![image](https://github.com/user-attachments/assets/0169da36-c8cd-499a-b5a4-a0ea4b1f9b70)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+# Inspiration site
+https://pomofocus.io/
