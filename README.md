@@ -1,5 +1,6 @@
 ## POMODORO
 My first vue project, made a site to organize your routine using pomodoro tecnic.
+
 A CodeAcademy project
 
 ## Technologies
